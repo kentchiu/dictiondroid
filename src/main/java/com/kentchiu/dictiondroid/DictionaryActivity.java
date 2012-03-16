@@ -1,14 +1,17 @@
 package com.kentchiu.dictiondroid;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.KeyEvent;
@@ -16,18 +19,22 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.google.common.collect.Iterables;
 
-public class DictionaryActivity extends Activity {
+public class DictionaryActivity extends RoboActivity {
 	private static final int	VOICE_RECOGNITION_REQUEST_CODE	= 1234;
 	@InjectView(R.id.input)
 	private EditText			mInput;
 	@InjectView(R.id.mic)
 	private ImageView			mSpeakButton;
+	@InjectView(R.id.scoll_menu_bar)
+	private LinearLayout mScollMenuBar;
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -37,7 +44,6 @@ public class DictionaryActivity extends Activity {
 			String first = Iterables.getFirst(matches, "Not Found");
 			mInput.setText(first);
 		}
-
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
@@ -68,9 +74,16 @@ public class DictionaryActivity extends Activity {
 				return false;
 			}
 		});
-		if (savedInstanceState != null) {
-			//mDictView.query(savedInstanceState.getString("query"));
+		
+		ImageButton icon = (ImageButton) getLayoutInflater().inflate(R.layout.scoll_menu_item, mScollMenuBar, false);
+		try {
+			Bitmap bm = BitmapFactory.decodeStream(getAssets().open("/favicon/default.ico") );
+			icon.setImageBitmap(bm );
+			mScollMenuBar.addView(icon);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		
 	}
 
 	@Override

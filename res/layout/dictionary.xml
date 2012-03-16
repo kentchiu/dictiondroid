@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:id="@+id/queryBar"
+        android:id="@+id/query_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" >
@@ -28,39 +27,34 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/statusBar"
+        android:id="@+id/status_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/queryBar" >
 
         <HorizontalScrollView
-            android:id="@+id/scollMenuBarOutter"
+            android:id="@+id/scoll_menu_bar_outter"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/progressbar" >
 
             <LinearLayout
-                android:id="@+id/scollMenuBar"
+                android:id="@+id/scoll_menu_bar"
                 android:layout_width="281dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal" >
-
-                <ImageButton
-                    android:id="@+id/imageButton1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_launcher" />
             </LinearLayout>
         </HorizontalScrollView>
 
         <ProgressBar
-            android:id="@+id/progressBar1"
+            android:id="@+id/progressbar"
             style="?android:attr/progressBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true" />
     </RelativeLayout>
-
+
     <WebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
