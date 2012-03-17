@@ -18,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
@@ -43,6 +44,8 @@ public class DictionaryActivity extends RoboActivity {
 	private ProgressBar			mProgressBar;
 	@InjectView(R.id.scoll_menu_bar)
 	private LinearLayout		mScollMenuBar;
+	@Inject
+	private InputMethodManager mInputMethodManager;
 	@Inject
 	private IDictionaryService	mDictionaryService;
 	private String				mCurrentDictName;
@@ -98,9 +101,10 @@ public class DictionaryActivity extends RoboActivity {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (EditorInfo.IME_ACTION_SEND == actionId) {
-
+					query(mDictionaryService.findByName(mCurrentDictName), mInput.getText().toString());
+					  mInputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 				}
-				return false;
+				return true;
 			}
 		});
 	}
@@ -149,7 +153,7 @@ public class DictionaryActivity extends RoboActivity {
 		} else {
 			String dictName = savedInstanceState.getString("currentDictName");
 			String query = savedInstanceState.getString("query");
-			Dictionary dict = mDictionaryService.findByName(mDictionaryService.allDictionaries(), dictName);
+			Dictionary dict = mDictionaryService.findByName(dictName);
 			query(dict, query);
 		}
 	}
