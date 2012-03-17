@@ -147,7 +147,7 @@ public class DictionaryActivity extends RoboActivity {
 			Dictionary dict = Iterables.getFirst(mDictionaryService.allDictionaries(), null);
 			query(dict, "welcome");
 		} else {
-			String dictName = savedInstanceState.getString("currentDictNme");
+			String dictName = savedInstanceState.getString("currentDictName");
 			String query = savedInstanceState.getString("query");
 			Dictionary dict = mDictionaryService.findByName(mDictionaryService.allDictionaries(), dictName);
 			query(dict, query);
@@ -159,6 +159,11 @@ public class DictionaryActivity extends RoboActivity {
 		super.onSaveInstanceState(outState);
 		outState.putString("query", mQuery);
 		outState.putString("currentDictName", mCurrentDictName);
+	}
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
 	}
 
 	private void query(Dictionary dict, String query) {
