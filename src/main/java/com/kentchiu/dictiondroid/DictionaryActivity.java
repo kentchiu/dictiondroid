@@ -113,6 +113,7 @@ public class DictionaryActivity extends RoboActivity {
 		mWebView.getSettings().setBuiltInZoomControls(true);
 		mWebView.getSettings().setUseWideViewPort(true);
 		mWebView.getSettings().setLoadWithOverviewMode(true);
+		mWebView.getSettings().setJavaScriptEnabled(true);
 		mWebView.setWebViewClient(new WebViewClient() {
 
 			@Override
