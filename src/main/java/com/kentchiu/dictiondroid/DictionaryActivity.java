@@ -8,13 +8,17 @@ import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -34,6 +38,7 @@ import com.google.inject.Inject;
 
 public class DictionaryActivity extends RoboActivity {
 	private static final int	VOICE_RECOGNITION_REQUEST_CODE	= 1234;
+	private static final int	EDIT_ID							= 1;
 	@InjectView(R.id.input)
 	private EditText			mInput;
 	@InjectView(R.id.mic)
@@ -45,11 +50,26 @@ public class DictionaryActivity extends RoboActivity {
 	@InjectView(R.id.scoll_menu_bar)
 	private LinearLayout		mScollMenuBar;
 	@Inject
-	private InputMethodManager mInputMethodManager;
+	private InputMethodManager	mInputMethodManager;
 	@Inject
 	private IDictionaryService	mDictionaryService;
 	private String				mCurrentDictName;
 	private String				mQuery;
+
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(Menu.NONE, EDIT_ID, Menu.NONE, "Edit Prefs").setIcon(R.drawable.ic_launcher).setAlphabeticShortcut('e');
+		return (super.onCreateOptionsMenu(menu));
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case EDIT_ID:
+			startActivity(new Intent(this, SettingsActivity.class));
+			return (true);
+		}
+		return (super.onOptionsItemSelected(item));
+	}
 
 	private void initScollMenuItem() {
 		for (Dictionary each : mDictionaryService.allDictionaries()) {
@@ -102,7 +122,7 @@ public class DictionaryActivity extends RoboActivity {
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (EditorInfo.IME_ACTION_SEND == actionId) {
 					query(mDictionaryService.findByName(mCurrentDictName), mInput.getText().toString());
-					  mInputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+					mInputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 				}
 				return true;
 			}
@@ -157,6 +177,18 @@ public class DictionaryActivity extends RoboActivity {
 			Dictionary dict = mDictionaryService.findByName(dictName);
 			query(dict, query);
 		}
+
+		//Load the preference defaults 
+		PreferenceManager.setDefaultValues(this, R.xml.settings, false);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+
+		String name = settings.getString("namePref", "");
+		boolean isMoreEnabled = settings.getBoolean("morePref", false);
 	}
 
 	@Override
@@ -165,7 +197,7 @@ public class DictionaryActivity extends RoboActivity {
 		outState.putString("query", mQuery);
 		outState.putString("currentDictName", mCurrentDictName);
 	}
-	
+
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
