@@ -33,12 +33,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import com.ericharlow.DragNDrop.DragNDropListActivity;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 
 public class DictionaryActivity extends RoboActivity {
 	private static final int	VOICE_RECOGNITION_REQUEST_CODE	= 1234;
 	private static final int	EDIT_ID							= 1;
+	private static final int	DICTIONARY_SETTING_ID	= 2;
 	@InjectView(R.id.input)
 	private EditText			mInput;
 	@InjectView(R.id.mic)
@@ -58,6 +60,7 @@ public class DictionaryActivity extends RoboActivity {
 
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(Menu.NONE, EDIT_ID, Menu.NONE, "Edit Prefs").setIcon(R.drawable.ic_launcher).setAlphabeticShortcut('e');
+		menu.add(Menu.NONE, DICTIONARY_SETTING_ID, Menu.NONE, "Dictionary Setting").setIcon(R.drawable.ic_launcher).setAlphabeticShortcut('s');
 		return (super.onCreateOptionsMenu(menu));
 	}
 
@@ -66,6 +69,9 @@ public class DictionaryActivity extends RoboActivity {
 		switch (item.getItemId()) {
 		case EDIT_ID:
 			startActivity(new Intent(this, SettingsActivity.class));
+			return (true);
+		case DICTIONARY_SETTING_ID:
+			startActivity(new Intent(this, DragNDropListActivity.class));
 			return (true);
 		}
 		return (super.onOptionsItemSelected(item));

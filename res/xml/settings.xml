@@ -11,6 +11,15 @@
       android:title="Enable More Settings" 
       android:defaultValue="false" 
   /> 
+  <Preference
+      android:key="xxx"
+      android:title="xxx"
+      />
+  <RingtonePreference
+      android:key="ringtone"
+      android:title="RINGTONE" 
+      />
+      
   <PreferenceScreen 
     android:key="moreScreen" 
     android:title="More Settings" 
