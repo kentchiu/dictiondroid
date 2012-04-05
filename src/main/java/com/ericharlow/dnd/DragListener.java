@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ericharlow.DragNDrop;
+package com.ericharlow.dnd;
 
 import android.view.View;
 import android.widget.ListView;

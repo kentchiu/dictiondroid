@@ -25,7 +25,7 @@
             android:name=".SettingsActivity"
             android:label="@string/app_name"/>
         <activity
-            android:name="com.ericharlow.DragNDrop.DragNDropListActivity"
+            android:name="com.ericharlow.dnd.DragNDropListActivity"
             android:label="Setting Dictionary"/>
         
     </application>

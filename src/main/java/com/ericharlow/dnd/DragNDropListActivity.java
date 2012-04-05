@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ericharlow.DragNDrop;
+package com.ericharlow.dnd;
 
 import java.util.ArrayList;
 
@@ -25,8 +25,8 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.ericharlow.domain.DictionaryService;
 import com.google.inject.Inject;
-import com.kentchiu.dictiondroid.DictionaryService;
 import com.kentchiu.dictiondroid.R;
 
 public class DragNDropListActivity extends RoboListActivity {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ericharlow.DragNDrop;
+package com.ericharlow.dnd;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -27,9 +27,9 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.ericharlow.domain.Dictionary;
+import com.ericharlow.domain.DictionaryService;
 import com.google.common.collect.Lists;
-import com.kentchiu.dictiondroid.Dictionary;
-import com.kentchiu.dictiondroid.DictionaryService;
 import com.kentchiu.dictiondroid.R;
 
 public final class DragNDropAdapter extends BaseAdapter implements RemoveListener, DropListener {

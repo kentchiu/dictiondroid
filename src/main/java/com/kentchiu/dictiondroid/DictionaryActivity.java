@@ -33,7 +33,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.ericharlow.DragNDrop.DragNDropListActivity;
+import com.ericharlow.dnd.DragNDropListActivity;
+import com.ericharlow.domain.Dictionary;
+import com.ericharlow.domain.IDictionaryService;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 
