@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-  <resources> 
+<resources>
     <string-array name="roboguice_modules">
-    <item>com.kentchiu.dictiondroid.MyModule</item>
-  </string-array>
+        <item>com.kentchiu.dictiondroid.MyModule</item>
+    </string-array>
 </resources>

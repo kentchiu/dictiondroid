@@ -42,7 +42,7 @@ import com.google.inject.Inject;
 public class DictionaryActivity extends RoboActivity {
 	private static final int	VOICE_RECOGNITION_REQUEST_CODE	= 1234;
 	private static final int	EDIT_ID							= 1;
-	private static final int	DICTIONARY_SETTING_ID	= 2;
+	private static final int	DICTIONARY_SETTING_ID			= 2;
 	@InjectView(R.id.input)
 	private EditText			mInput;
 	@InjectView(R.id.mic)
@@ -59,25 +59,6 @@ public class DictionaryActivity extends RoboActivity {
 	private IDictionaryService	mDictionaryService;
 	private String				mCurrentDictName;
 	private String				mQuery;
-
-	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(Menu.NONE, EDIT_ID, Menu.NONE, "Edit Prefs").setIcon(R.drawable.ic_launcher).setAlphabeticShortcut('e');
-		menu.add(Menu.NONE, DICTIONARY_SETTING_ID, Menu.NONE, "Dictionary Setting").setIcon(R.drawable.ic_launcher).setAlphabeticShortcut('s');
-		return (super.onCreateOptionsMenu(menu));
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case EDIT_ID:
-			startActivity(new Intent(this, SettingsActivity.class));
-			return (true);
-		case DICTIONARY_SETTING_ID:
-			startActivity(new Intent(this, DragNDropListActivity.class));
-			return (true);
-		}
-		return (super.onOptionsItemSelected(item));
-	}
 
 	private void initScollMenuItem() {
 		for (Dictionary each : mDictionaryService.allDictionaries()) {
@@ -191,12 +172,37 @@ public class DictionaryActivity extends RoboActivity {
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(Menu.NONE, EDIT_ID, Menu.NONE, "Edit Prefs").setIcon(R.drawable.ic_launcher).setAlphabeticShortcut('e');
+		menu.add(Menu.NONE, DICTIONARY_SETTING_ID, Menu.NONE, "Dictionary Setting").setIcon(R.drawable.ic_launcher).setAlphabeticShortcut('s');
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case EDIT_ID:
+			startActivity(new Intent(this, SettingsActivity.class));
+			return true;
+		case DICTIONARY_SETTING_ID:
+			startActivity(new Intent(this, DragNDropListActivity.class));
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 
-		String name = settings.getString("namePref", "");
-		boolean isMoreEnabled = settings.getBoolean("morePref", false);
+		settings.getString("namePref", "");
+		settings.getBoolean("morePref", false);
 	}
 
 	@Override
@@ -204,11 +210,6 @@ public class DictionaryActivity extends RoboActivity {
 		super.onSaveInstanceState(outState);
 		outState.putString("query", mQuery);
 		outState.putString("currentDictName", mCurrentDictName);
-	}
-
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
 	}
 
 	private void query(Dictionary dict, String query) {

@@ -1,51 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?> 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"> 
-  <EditTextPreference 
-    android:key="namePref" 
-    android:title="Name" 
-    android:summary="Tell Us Your Name" 
-    android:defaultValue="Apress" 
-  /> 
-  <CheckBoxPreference 
-      android:key="morePref" 
-      android:title="Enable More Settings" 
-      android:defaultValue="false" 
-  /> 
-  <Preference
-      android:key="xxx"
-      android:title="xxx"
-      />
-  <RingtonePreference
-      android:key="ringtone"
-      android:title="RINGTONE" 
-      />
-      
-  <PreferenceScreen 
-    android:key="moreScreen" 
-    android:title="More Settings" 
-    android:dependency="morePref"> 
-    <ListPreference 
-      android:key="colorPref" 
-      android:title="Favorite Color" 
-      android:summary="Choose your favorite color" 
-      android:entries="@array/color_names" 
-      android:entryValues="@array/color_values" 
-      android:defaultValue="GRN" 
-    /> 
-    <PreferenceCategory 
-      android:title="Location Settings"> 
-      <CheckBoxPreference 
-        android:key="gpsPref" 
-        android:title="Use GPS Location" 
-        android:summary="Use GPS to Find You" 
-        android:defaultValue="true" 
-      /> 
-      <CheckBoxPreference 
-        android:key="networkPref" 
-        android:title="Use Network Location" 
-        android:summary="Use Network to Find You" 
-        android:defaultValue="true" 
-      /> 
-    </PreferenceCategory> 
-  </PreferenceScreen> 
-</PreferenceScreen> 
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <EditTextPreference
+        android:defaultValue="Apress"
+        android:key="namePref"
+        android:summary="Tell Us Your Name"
+        android:title="Name" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="morePref"
+        android:title="Enable More Settings" />
+
+    <Preference
+        android:key="xxx"
+        android:title="xxx" />
+
+    <RingtonePreference
+        android:key="ringtone"
+        android:title="RINGTONE" />
+
+    <PreferenceScreen
+        android:dependency="morePref"
+        android:key="moreScreen"
+        android:title="More Settings" >
+        <ListPreference
+            android:defaultValue="GRN"
+            android:entries="@array/color_names"
+            android:entryValues="@array/color_values"
+            android:key="colorPref"
+            android:summary="Choose your favorite color"
+            android:title="Favorite Color" />
+
+        <PreferenceCategory android:title="Location Settings" >
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="gpsPref"
+                android:summary="Use GPS to Find You"
+                android:title="Use GPS Location" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="networkPref"
+                android:summary="Use Network to Find You"
+                android:title="Use Network Location" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+
+</PreferenceScreen>

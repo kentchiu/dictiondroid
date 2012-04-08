@@ -2,7 +2,7 @@ package com.ericharlow.domain;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class Dictionary  {
+public class Dictionary {
 	private String				mName;
 	private String				mUrlTemplate;
 	public final static String	templateToken	= "$$";
@@ -70,6 +70,5 @@ public class Dictionary  {
 	public String toUrl(String query) {
 		return StringUtils.replace(getUrlTemplate(), "$$", query);
 	}
-
 
 }

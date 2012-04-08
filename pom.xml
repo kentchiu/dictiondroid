@@ -7,17 +7,16 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>apk</packaging>
 	<name>dictiondroid</name>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.roboguice</groupId>
 			<artifactId>roboguice</artifactId>
-			<version>2.0b4</version>
+			<version>2.0-RC1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
-			 <version>4.0.1.2</version>
+			<version>4.0.1.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -30,6 +29,11 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.1</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.2</version>
+  		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
