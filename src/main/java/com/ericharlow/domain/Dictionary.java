@@ -3,6 +3,7 @@ package com.ericharlow.domain;
 import org.apache.commons.lang3.StringUtils;
 
 public class Dictionary {
+	private boolean				enabled;
 	private String				mName;
 	private String				mUrlTemplate;
 	public final static String	templateToken	= "$$";
@@ -52,6 +53,14 @@ public class Dictionary {
 		int result = 1;
 		result = prime * result + (mName == null ? 0 : mName.hashCode());
 		return result;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	public void setName(String name) {
