@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 import roboguice.util.Ln;
@@ -145,7 +147,9 @@ public class DictionaryActivity extends RoboActivity {
 			// Fill the list view with the strings the recognizer thought it could have heard
 			ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 			String first = Iterables.getFirst(matches, "Not Found");
-			mInput.setText(first);
+			String query = StringUtils.replace(first, " ", "").toLowerCase();
+			mInput.setText(query);
+			query(mDictionaryService.findByName(mCurrentDictName), query);
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
