@@ -1,20 +1,19 @@
 package com.kentchiu.dictiondroid;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import roboguice.activity.RoboActivity;
+import roboguice.RoboGuice;
 import roboguice.inject.InjectView;
-import roboguice.util.Ln;
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
@@ -25,13 +24,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -41,7 +35,7 @@ import com.google.inject.Inject;
 import com.kentchiu.dictiondroid.domain.Dictionary;
 import com.kentchiu.dictiondroid.domain.IDictionaryService;
 
-public class DictionaryActivity extends RoboActivity {
+public class DictionaryActivity extends Activity {
 	private static final int	VOICE_RECOGNITION_REQUEST_CODE	= 1234;
 	private static final int	EDIT_ID							= 1;
 	private static final int	DICTIONARY_SETTING_ID			= 2;
@@ -49,12 +43,12 @@ public class DictionaryActivity extends RoboActivity {
 	private EditText			mInput;
 	@InjectView(R.id.mic)
 	private ImageView			mSpeakButton;
-	@InjectView(R.id.webview)
-	private WebView				mWebView;
-	@InjectView(R.id.progressbar)
-	private ProgressBar			mProgressBar;
-	@InjectView(R.id.scoll_menu_bar)
-	private LinearLayout		mScollMenuBar;
+	//	@InjectView(R.id.webview)
+	//	private WebView				mWebView;
+	//	@InjectView(R.id.progressbar)
+	//	private ProgressBar			mProgressBar;
+	//	@InjectView(R.id.scoll_menu_bar)
+	//	private LinearLayout		mScollMenuBar;
 	@Inject
 	private InputMethodManager	mInputMethodManager;
 	@Inject
@@ -62,36 +56,62 @@ public class DictionaryActivity extends RoboActivity {
 	private String				mCurrentDictName;
 	private String				mQuery;
 
-	private void initScollMenuItem() {
-		for (Dictionary each : mDictionaryService.allDictionaries()) {
-			ImageButton icon = (ImageButton) getLayoutInflater().inflate(R.layout.scoll_menu_item, mScollMenuBar, false);
-			try {
-				Bitmap bm = BitmapFactory.decodeStream(getAssets().open("favicon/" + each.getName() + ".ico"));
-				icon.setImageBitmap(bm);
-			} catch (IOException e) {
-				Ln.i("coluldn't find favicon of diction [%s]", each.getName());
-				try {
-					Bitmap bm = BitmapFactory.decodeStream(getAssets().open("favicon/default.ico"));
-					icon.setImageBitmap(bm);
-				} catch (IOException e1) {
-					Ln.e(e1, "coluldn't find default favicon");
-					e1.printStackTrace();
-				}
-				e.printStackTrace();
-			}
-			icon.setTag(each);
-			icon.setOnClickListener(new OnClickListener() {
+	//	private void initScollMenuItem() {
+	//		for (Dictionary each : mDictionaryService.allDictionaries()) {
+	//			ImageButton icon = (ImageButton) getLayoutInflater().inflate(R.layout.scoll_menu_item, mScollMenuBar, false);
+	//			try {
+	//				Bitmap bm = BitmapFactory.decodeStream(getAssets().open("favicon/" + each.getName() + ".ico"));
+	//				icon.setImageBitmap(bm);
+	//			} catch (IOException e) {
+	//				Ln.i("coluldn't find favicon of diction [%s]", each.getName());
+	//				try {
+	//					Bitmap bm = BitmapFactory.decodeStream(getAssets().open("favicon/default.ico"));
+	//					icon.setImageBitmap(bm);
+	//				} catch (IOException e1) {
+	//					Ln.e(e1, "coluldn't find default favicon");
+	//					e1.printStackTrace();
+	//				}
+	//				e.printStackTrace();
+	//			}
+	//			icon.setTag(each);
+	//			icon.setOnClickListener(new OnClickListener() {
+	//
+	//				@Override
+	//				public void onClick(View v) {
+	//					Dictionary dict = (Dictionary) v.getTag();
+	//					query(dict, mInput.getText().toString());
+	//				}
+	//
+	//			});
+	//			mScollMenuBar.addView(icon);
+	//		}
+	//	}
 
-				@Override
-				public void onClick(View v) {
-					Dictionary dict = (Dictionary) v.getTag();
-					query(dict, mInput.getText().toString());
-				}
-
-			});
-			mScollMenuBar.addView(icon);
-		}
+	private void addTab(ActionBar actionBar, String text) {
+		Tab tab = actionBar.newTab().setText(text).setTabListener(new MyTabListener<DictFragment>(this, text, DictFragment.class));
+		actionBar.addTab(tab);
 	}
+
+	//	private void initWebView() {
+	//		mWebView.getSettings().setBuiltInZoomControls(true);
+	//		mWebView.getSettings().setUseWideViewPort(true);
+	//		mWebView.getSettings().setLoadWithOverviewMode(true);
+	//		mWebView.getSettings().setJavaScriptEnabled(true);
+	//		mWebView.setWebViewClient(new WebViewClient() {
+	//
+	//			@Override
+	//			public void onPageFinished(WebView view, String url) {
+	//				super.onPageFinished(view, url);
+	//				mProgressBar.setVisibility(View.INVISIBLE);
+	//			}
+	//
+	//			@Override
+	//			public void onPageStarted(WebView view, String url, Bitmap favicon) {
+	//				super.onPageStarted(view, url, favicon);
+	//				mProgressBar.setVisibility(View.VISIBLE);
+	//			}
+	//		});
+	//	}
 
 	private void initVoiceRecognize() {
 		PackageManager pm = getPackageManager();
@@ -120,27 +140,6 @@ public class DictionaryActivity extends RoboActivity {
 		});
 	}
 
-	private void initWebView() {
-		mWebView.getSettings().setBuiltInZoomControls(true);
-		mWebView.getSettings().setUseWideViewPort(true);
-		mWebView.getSettings().setLoadWithOverviewMode(true);
-		mWebView.getSettings().setJavaScriptEnabled(true);
-		mWebView.setWebViewClient(new WebViewClient() {
-
-			@Override
-			public void onPageFinished(WebView view, String url) {
-				super.onPageFinished(view, url);
-				mProgressBar.setVisibility(View.INVISIBLE);
-			}
-
-			@Override
-			public void onPageStarted(WebView view, String url, Bitmap favicon) {
-				super.onPageStarted(view, url, favicon);
-				mProgressBar.setVisibility(View.VISIBLE);
-			}
-		});
-	}
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -157,20 +156,28 @@ public class DictionaryActivity extends RoboActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.dictionary);
-		initVoiceRecognize();
-		initScollMenuItem();
-		initWebView();
-		if (savedInstanceState == null) {
-			Dictionary dict = Iterables.getFirst(mDictionaryService.allDictionaries(), null);
-			query(dict, "welcome");
-		} else {
-			String dictName = savedInstanceState.getString("currentDictName");
-			String query = savedInstanceState.getString("query");
-			Dictionary dict = mDictionaryService.findByName(dictName);
-			query(dict, query);
-		}
+		//setContentView(R.layout.dictionary);
+		//initVoiceRecognize();
+		//initScollMenuItem();
+		//initWebView();
+		//		if (savedInstanceState == null) {
+		//			Dictionary dict = Iterables.getFirst(mDictionaryService.allDictionaries(), null);
+		//			query(dict, "welcome");
+		//		} else {
+		//			String dictName = savedInstanceState.getString("currentDictName");
+		//			String query = savedInstanceState.getString("query");
+		//			Dictionary dict = mDictionaryService.findByName(dictName);
+		//			query(dict, query);
+		//		}
+		getActionBar().setHomeButtonEnabled(true);
 
+		ActionBar actionBar = getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.setDisplayShowTitleEnabled(false);
+		RoboGuice.getInjector(getApplication()).injectMembersWithoutViews(this);
+		for (Dictionary each : mDictionaryService.allDictionaries()) {
+			addTab(actionBar, each.getName());
+		}
 		//Load the preference defaults 
 		PreferenceManager.setDefaultValues(this, R.xml.settings, false);
 	}
@@ -219,7 +226,7 @@ public class DictionaryActivity extends RoboActivity {
 		mCurrentDictName = dict.getName();
 		mQuery = query;
 		mInput.setText(query);
-		mWebView.loadUrl(dict.toUrl(query));
+		//mWebView.loadUrl(dict.toUrl(query));
 	}
 
 	private void startVoiceRecognitionActivity() {
