@@ -1,4 +1,4 @@
-package com.ericharlow.domain;
+package com.kentchiu.dictiondroid.domain;
 
 import java.io.IOException;
 import java.io.InputStream;

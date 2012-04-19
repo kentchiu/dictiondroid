@@ -36,10 +36,10 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.ericharlow.dnd.DragNDropListActivity;
-import com.ericharlow.domain.Dictionary;
-import com.ericharlow.domain.IDictionaryService;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
+import com.kentchiu.dictiondroid.domain.Dictionary;
+import com.kentchiu.dictiondroid.domain.IDictionaryService;
 
 public class DictionaryActivity extends RoboActivity {
 	private static final int	VOICE_RECOGNITION_REQUEST_CODE	= 1234;
@@ -204,7 +204,6 @@ public class DictionaryActivity extends RoboActivity {
 	protected void onResume() {
 		super.onResume();
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-
 		settings.getString("namePref", "");
 		settings.getBoolean("morePref", false);
 	}

@@ -1,4 +1,4 @@
-package com.ericharlow.domain;
+package com.kentchiu.dictiondroid.domain;
 
 import org.apache.commons.lang3.StringUtils;
 

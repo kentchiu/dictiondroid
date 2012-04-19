@@ -27,10 +27,10 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.ericharlow.domain.Dictionary;
-import com.ericharlow.domain.DictionaryService;
 import com.google.common.collect.Lists;
 import com.kentchiu.dictiondroid.R;
+import com.kentchiu.dictiondroid.domain.Dictionary;
+import com.kentchiu.dictiondroid.domain.DictionaryService;
 
 public final class DragNDropAdapter extends BaseAdapter implements RemoveListener, DropListener {
 

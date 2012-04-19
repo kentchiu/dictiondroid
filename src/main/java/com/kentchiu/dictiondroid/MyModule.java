@@ -1,8 +1,8 @@
 package com.kentchiu.dictiondroid;
 
-import com.ericharlow.domain.DictionaryService;
-import com.ericharlow.domain.IDictionaryService;
 import com.google.inject.AbstractModule;
+import com.kentchiu.dictiondroid.domain.DictionaryService;
+import com.kentchiu.dictiondroid.domain.IDictionaryService;
 
 public class MyModule extends AbstractModule {
 

@@ -25,9 +25,9 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.ericharlow.domain.DictionaryService;
 import com.google.inject.Inject;
 import com.kentchiu.dictiondroid.R;
+import com.kentchiu.dictiondroid.domain.DictionaryService;
 
 public class DragNDropListActivity extends RoboListActivity {
 
