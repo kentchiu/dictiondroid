@@ -1,6 +1,7 @@
 package com.kentchiu.dictiondroid;
 
 import roboguice.RoboGuice;
+import roboguice.event.Observes;
 import roboguice.util.Ln;
 import android.app.Fragment;
 import android.graphics.Bitmap;
@@ -23,9 +24,19 @@ public class DictFragment extends Fragment {
 	@Inject
 	private DictionaryService	mDictionaryService;
 
+	protected void handleBuy(@Observes QueryChangeEvent event) {
+		Ln.d("query changed : %s", event.getQuery());
+		query(event.getQuery());
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		RoboGuice.getInjector(getActivity()).injectMembersWithoutViews(this);
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		RoboGuice.getInjector(getActivity()).injectMembersWithoutViews(this);
 		mWebView = new WebView(getActivity());
 		mWebView.getSettings().setBuiltInZoomControls(true);
 		mWebView.getSettings().setUseWideViewPort(true);
@@ -48,15 +59,20 @@ public class DictFragment extends Fragment {
 			}
 		});
 
-		String query = "hello";
+		String query = ((DictionaryActivity) getActivity()).getQuery();
+		Ln.d("qeurying [%s]", query);
+
+		query(query);
+		return mWebView;
+	}
+
+	private void query(String query) {
 		Dictionary dictionary = mDictionaryService.findByName(getTag());
 		TextView textView = new TextView(getActivity());
 		if (dictionary != null) {
 			mWebView.loadUrl(dictionary.toUrl(query));
 			textView.setText(dictionary.toUrl(query));
 		}
-		//return mWebView;
-		return mWebView;
 	}
 
 }
