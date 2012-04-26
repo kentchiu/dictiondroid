@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 
-public class MyTabListener<T extends Fragment> implements TabListener {
+public class DcitTabListener<T extends Fragment> implements TabListener {
 	private Fragment		mFragment;
 	private final Activity	mActivity;
 	private final String	mTag;
@@ -17,7 +17,7 @@ public class MyTabListener<T extends Fragment> implements TabListener {
 	  * @param tag  The identifier tag for the fragment
 	  * @param clz  The fragment's Class, used to instantiate the fragment
 	  */
-	public MyTabListener(Activity activity, String tag, Class<T> clz) {
+	public DcitTabListener(Activity activity, String tag, Class<T> clz) {
 		mActivity = activity;
 		mTag = tag;
 		mClass = clz;
