@@ -3,6 +3,7 @@ package com.kentchiu.dictiondroid;
 import roboguice.RoboGuice;
 import roboguice.event.Observes;
 import roboguice.util.Ln;
+import android.app.ActionBar.OnMenuVisibilityListener;
 import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -24,7 +25,7 @@ public class DictFragment extends Fragment {
 	@Inject
 	private DictionaryService	mDictionaryService;
 
-	protected void handleBuy(@Observes QueryChangeEvent event) {
+	protected void handleQuery(@Observes QueryEvent event) {
 		Ln.d("query changed : %s", event.getQuery());
 		query(event.getQuery());
 	}
@@ -59,6 +60,14 @@ public class DictFragment extends Fragment {
 			}
 		});
 
+		getActivity().getActionBar().addOnMenuVisibilityListener(new OnMenuVisibilityListener() {
+
+			@Override
+			public void onMenuVisibilityChanged(boolean isVisible) {
+				Ln.d("menu on visiabled : " + isVisible);
+
+			}
+		});
 		String query = ((DictionaryActivity) getActivity()).getQuery();
 		Ln.d("qeurying [%s]", query);
 

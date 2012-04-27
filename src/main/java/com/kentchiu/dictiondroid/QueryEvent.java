@@ -1,13 +1,13 @@
 package com.kentchiu.dictiondroid;
 
-public class QueryChangeEvent {
+public class QueryEvent {
 	private String	query;
 
-	public QueryChangeEvent() {
+	public QueryEvent() {
 		super();
 	}
 
-	public QueryChangeEvent(String query) {
+	public QueryEvent(String query) {
 		super();
 		setQuery(query);
 	}

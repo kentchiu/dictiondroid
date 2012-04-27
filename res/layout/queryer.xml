@@ -3,22 +3,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
-    <EditText
+
+    <EditText
         android:id="@+id/queryTextView"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:ems="10" 
+        android:ems="10"
+        android:imeOptions="actionSend"
         android:singleLine="true"
-        android:imeOptions="actionSend">
-        <requestFocus />
-    </EditText>
-
+        android:visibility="invisible" />
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:visibility="invisible" 
+         />
+
     <ImageView
         android:id="@+id/micImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@android:drawable/ic_btn_speak_now" />
-
+
     <ImageView
         android:id="@+id/penImageView"
         android:layout_width="wrap_content"
