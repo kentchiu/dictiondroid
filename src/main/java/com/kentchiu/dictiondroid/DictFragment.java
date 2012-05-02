@@ -2,6 +2,7 @@ package com.kentchiu.dictiondroid;
 
 import roboguice.RoboGuice;
 import roboguice.event.Observes;
+import roboguice.fragment.RoboFragment;
 import roboguice.util.Ln;
 import android.app.ActionBar.OnMenuVisibilityListener;
 import android.app.Fragment;
