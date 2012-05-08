@@ -5,10 +5,13 @@ import roboguice.event.Observes;
 import roboguice.util.Ln;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
+import com.ericharlow.dnd.DragNDropListActivity;
 import com.google.inject.Inject;
 import com.kentchiu.dictiondroid.domain.Dictionary;
 import com.kentchiu.dictiondroid.domain.DictionaryService;
@@ -47,6 +50,20 @@ public class DictionaryActivity extends RoboActivity {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.options_menu, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		Ln.i("featureId: %d", featureId);
+		Ln.i("Menuitem : %s", item.getTitle());
+		switch (item.getItemId()) {
+		case R.id.menu_setting:
+			Intent intent = new Intent(DictionaryActivity.this, DragNDropListActivity.class);
+			startActivity(intent);
+			return true;
+		default:
+			return false;
+		}
 	}
 
 	private void setupActionBar() {

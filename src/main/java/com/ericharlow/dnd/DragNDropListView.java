@@ -17,7 +17,6 @@
 package com.ericharlow.dnd;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -27,6 +26,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListView;
+
+import com.kentchiu.dictiondroid.R;
 
 public class DragNDropListView extends ListView {
 
@@ -131,7 +132,8 @@ public class DragNDropListView extends ListView {
 
 		// Create a copy of the drawing cache so that it does not get recycled
 		// by the framework when the list tries to clean up memory
-		Bitmap bitmap = Bitmap.createBitmap(item.getDrawingCache());
+		// FIXME bitmap should to be a mDragView, but not work for android 4.0.x
+		// Bitmap bitmap = Bitmap.createBitmap(item.getDrawingCache()); 
 
 		WindowManager.LayoutParams mWindowParams = new WindowManager.LayoutParams();
 		mWindowParams.gravity = Gravity.TOP;
@@ -147,7 +149,9 @@ public class DragNDropListView extends ListView {
 
 		Context context = getContext();
 		ImageView v = new ImageView(context);
-		v.setImageBitmap(bitmap);
+		v.setBackgroundResource(R.drawable.icmpmove);
+
+		//v.setImageBitmap(bitmap);
 
 		WindowManager mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		mWindowManager.addView(v, mWindowParams);
