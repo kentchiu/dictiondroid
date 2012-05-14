@@ -16,7 +16,7 @@
 
 package com.ericharlow.dnd;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import roboguice.activity.RoboListActivity;
 import android.os.Bundle;
@@ -25,8 +25,10 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.kentchiu.dictiondroid.R;
+import com.kentchiu.dictiondroid.domain.Dictionary;
 import com.kentchiu.dictiondroid.domain.DictionaryService;
 
 public class DragNDropListActivity extends RoboListActivity {
@@ -89,21 +91,11 @@ public class DragNDropListActivity extends RoboListActivity {
 
 												};
 
-	private static String[]		mListContent	= { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7" };
-
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.dragndroplistview);
-
-		ArrayList<String> content = new ArrayList<String>(mListContent.length);
-		for (int i = 0; i < mListContent.length; i++) {
-			content.add(mListContent[i]);
-		}
-
-		//setListAdapter(new DragNDropAdapter(this, new int[]{R.layout.dragitem}, new int[]{R.id.TextView01}, content));//new DragNDropAdapter(this,content)
 		setListAdapter(new DragNDropAdapter(DragNDropListActivity.this, new int[] { R.layout.dragitem }, mService));
 		ListView listView = getListView();
 
@@ -112,5 +104,17 @@ public class DragNDropListActivity extends RoboListActivity {
 			((DragNDropListView) listView).setRemoveListener(mRemoveListener);
 			((DragNDropListView) listView).setDragListener(mDragListener);
 		}
+	}
+
+	@Override
+	protected void onStop() {
+		int count = getListAdapter().getCount();
+		List<Dictionary> dicts = Lists.newArrayList();
+		for (int i = 0; i < count; i++) {
+			Dictionary item = (Dictionary) getListAdapter().getItem(i);
+			dicts.add(item);
+		}
+		mService.save(dicts);
+		super.onStop();
 	}
 }

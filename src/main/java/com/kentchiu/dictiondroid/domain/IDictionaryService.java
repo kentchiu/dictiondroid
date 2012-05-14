@@ -8,4 +8,6 @@ public interface IDictionaryService {
 
 	Dictionary findByName(String name);
 
+	void save(List<Dictionary> dicts);
+
 }

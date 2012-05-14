@@ -67,8 +67,8 @@ public final class DragNDropAdapter extends BaseAdapter implements RemoveListene
 	 * @see android.widget.ListAdapter#getItem(int)
 	 */
 	@Override
-	public String getItem(int position) {
-		return mContent.get(position).getName();
+	public Dictionary getItem(int position) {
+		return mContent.get(position);
 	}
 
 	/**

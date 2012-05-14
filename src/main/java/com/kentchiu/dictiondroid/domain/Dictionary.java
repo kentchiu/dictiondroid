@@ -1,11 +1,31 @@
 package com.kentchiu.dictiondroid.domain;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.common.base.Preconditions;
+
 public class Dictionary {
-	private boolean				enabled;
+	public static Dictionary createDictionary(String line) {
+		Dictionary dict = null;
+		Pattern pattern = Pattern.compile("^(\\#)?\\s*?(\\w*),\\s*(.*)");
+		Matcher m = pattern.matcher(line);
+		if (m.find()) {
+			Preconditions.checkState(m.groupCount() == 3, line + " is not well format");
+			String name = m.group(2);
+			String template = m.group(3);
+			dict = new Dictionary(name, template);
+			dict.setEnabled(m.group(1) == null);
+		}
+		return dict;
+	}
+
+	private boolean				mEnabled		= true;
 	private String				mName;
 	private String				mUrlTemplate;
+
 	public final static String	templateToken	= "$$";
 
 	public Dictionary() {
@@ -56,11 +76,11 @@ public class Dictionary {
 	}
 
 	public boolean isEnabled() {
-		return enabled;
+		return mEnabled;
 	}
 
 	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
+		mEnabled = enabled;
 	}
 
 	public void setName(String name) {
@@ -73,7 +93,11 @@ public class Dictionary {
 
 	@Override
 	public String toString() {
-		return "Dictionary [mName=" + mName + ", mUrlTemplate=" + mUrlTemplate + "]";
+		if (mEnabled) {
+			return String.format("%s, %s", mName, mUrlTemplate);
+		} else {
+			return String.format("# %s, %s", mName, mUrlTemplate);
+		}
 	}
 
 	public String toUrl(String query) {
