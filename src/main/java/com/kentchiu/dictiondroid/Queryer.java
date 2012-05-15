@@ -115,12 +115,6 @@ public class Queryer extends LinearLayout {
 		onActivityResult(e.getRequestCode(), e.getResultCode(), e.getData());
 	}
 
-	protected void handleQuery(@Observes QueryEvent event) {
-		String query = event.getQuery();
-		Ln.d("query changed : %s", query);
-		mQueryTextView.setText(query);
-	}
-
 	private void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
 			// Fill the list view with the strings the recognizer thought it could have heard
@@ -143,6 +137,12 @@ public class Queryer extends LinearLayout {
 		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
 		intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5);
 		activity.startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
+	}
+
+	protected void handleQuery(@Observes QueryEvent event) {
+		String query = event.getQuery();
+		Ln.d("query changed : %s", query);
+		mQueryTextView.setText(query);
 	}
 
 }

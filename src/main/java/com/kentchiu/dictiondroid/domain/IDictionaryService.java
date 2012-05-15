@@ -7,7 +7,6 @@ public interface IDictionaryService {
 	List<Dictionary> allDictionaries();
 
 	Dictionary findByName(String name);
-
-	void save(List<Dictionary> dicts);
-
+	
+	void persit(List<Dictionary> dicts);
 }

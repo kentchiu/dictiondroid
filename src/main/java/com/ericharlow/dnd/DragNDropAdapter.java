@@ -16,21 +16,23 @@
 
 package com.ericharlow.dnd;
 
-import java.util.LinkedList;
 import java.util.List;
 
+import roboguice.util.Ln;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.google.common.collect.Lists;
 import com.kentchiu.dictiondroid.R;
 import com.kentchiu.dictiondroid.domain.Dictionary;
-import com.kentchiu.dictiondroid.domain.DictionaryService;
+import com.kentchiu.dictiondroid.domain.IDictionaryService;
 
 public final class DragNDropAdapter extends BaseAdapter implements RemoveListener, DropListener {
 
@@ -41,12 +43,14 @@ public final class DragNDropAdapter extends BaseAdapter implements RemoveListene
 
 	private int[]				mLayouts;
 	private LayoutInflater		mInflater;
-
 	private List<Dictionary>	mContent;
 
-	public DragNDropAdapter(Context context, int[] itemLayouts, DictionaryService service) {
-		LinkedList<Dictionary> content = Lists.newLinkedList(service.allDictionaries());
-		init(context, itemLayouts, content);
+	public DragNDropAdapter(Context context, int[] itemLayouts, IDictionaryService service) {
+		init(context, itemLayouts, Lists.newLinkedList(service.allDictionaries()));
+	}
+
+	public List<Dictionary> getContent() {
+		return mContent;
 	}
 
 	/**
@@ -88,40 +92,38 @@ public final class DragNDropAdapter extends BaseAdapter implements RemoveListene
 	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// A ViewHolder keeps references to children views to avoid unneccessary calls
-		// to findViewById() on each row.
 		ViewHolder holder;
-
-		// When convertView is not null, we can reuse it directly, there is no need
-		// to reinflate it. We only inflate a new View when the convertView supplied
-		// by ListView is null.
+		final int idx = position;
 		if (convertView == null) {
 			convertView = mInflater.inflate(mLayouts[0], null);
 
-			// Creates a ViewHolder and store references to the two children views
-			// we want to bind data to.
 			holder = new ViewHolder();
 			holder.text = (TextView) convertView.findViewById(R.id.TextView01);
 			holder.checkBox = (CheckBox) convertView.findViewById(R.id.CheckBox01);
+			holder.checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					Dictionary dict = mContent.get(idx);
+					dict.setEnabled(isChecked);
+					if (dict.isEnabled()) {
+						Ln.v("dict %s is enabled", dict.getName());
+					} else {
+						Ln.v("dict %s is disabled", dict.getName());
+					}
+				}
+			});
 			convertView.setTag(holder);
 		} else {
-			// Get the ViewHolder back to get fast access to the TextView
-			// and the ImageView.
 			holder = (ViewHolder) convertView.getTag();
 		}
 
 		// Bind the data efficiently with the holder.
-		String name = mContent.get(position).getName();
+		Dictionary dict = mContent.get(position);
+		String name = dict.getName();
 		holder.text.setText(name);
-		holder.checkBox.setChecked(name.startsWith("c") || name.startsWith("d"));
+		holder.checkBox.setChecked(dict.isEnabled());
 		return convertView;
-	}
-
-	private void init(Context context, int[] layouts, List<Dictionary> content) {
-		// Cache the LayoutInflate to avoid asking for a new one each time.
-		mInflater = LayoutInflater.from(context);
-		mLayouts = layouts;
-		mContent = content;
 	}
 
 	@Override
@@ -137,5 +139,11 @@ public final class DragNDropAdapter extends BaseAdapter implements RemoveListene
 			return;
 		}
 		mContent.remove(which);
+	}
+
+	private void init(Context context, int[] layouts, List<Dictionary> content) {
+		mInflater = LayoutInflater.from(context);
+		mLayouts = layouts;
+		mContent = content;
 	}
 }

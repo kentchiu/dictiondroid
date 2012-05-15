@@ -14,26 +14,16 @@ import android.view.MenuItem;
 import com.ericharlow.dnd.DragNDropListActivity;
 import com.google.inject.Inject;
 import com.kentchiu.dictiondroid.domain.Dictionary;
-import com.kentchiu.dictiondroid.domain.DictionaryService;
+import com.kentchiu.dictiondroid.domain.IDictionaryService;
 
 public class DictionaryActivity extends RoboActivity {
 
 	@Inject
-	private DictionaryService	mDictionaryService;
+	private IDictionaryService	mDictionaryService;
 	private String				mQuery;
-
-	private void addTab(ActionBar actionBar, String text) {
-		Tab tab = actionBar.newTab().setText(text).setTabListener(new DcitTabListener<DictFragment>(this, text, DictFragment.class));
-		actionBar.addTab(tab);
-	}
 
 	public String getQuery() {
 		return mQuery;
-	};
-
-	protected void handleQuery(@Observes QueryEvent event) {
-		Ln.d("query changed : %s", event.getQuery());
-		mQuery = event.getQuery();
 	}
 
 	@Override
@@ -43,7 +33,7 @@ public class DictionaryActivity extends RoboActivity {
 		if (mQuery == null) {
 			mQuery = "welcome";
 		}
-	}
+	};
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -66,6 +56,11 @@ public class DictionaryActivity extends RoboActivity {
 		}
 	}
 
+	private void addTab(ActionBar actionBar, String text) {
+		Tab tab = actionBar.newTab().setText(text).setTabListener(new DcitTabListener<DictFragment>(this, text, DictFragment.class));
+		actionBar.addTab(tab);
+	}
+
 	private void setupActionBar() {
 		getActionBar().setHomeButtonEnabled(true);
 
@@ -76,6 +71,11 @@ public class DictionaryActivity extends RoboActivity {
 		for (Dictionary each : mDictionaryService.allDictionaries()) {
 			addTab(actionBar, each.getName());
 		}
+	}
+
+	protected void handleQuery(@Observes QueryEvent event) {
+		Ln.d("query changed : %s", event.getQuery());
+		mQuery = event.getQuery();
 	}
 
 }

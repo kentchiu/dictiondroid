@@ -48,21 +48,6 @@ public class DragNDropListView extends ListView {
 		super(context, attrs);
 	}
 
-	// move the drag view
-	private void drag(int x, int y) {
-		if (mDragView != null) {
-			WindowManager.LayoutParams layoutParams = (WindowManager.LayoutParams) mDragView.getLayoutParams();
-			layoutParams.x = x;
-			layoutParams.y = y - mDragPointOffset;
-			WindowManager mWindowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-			mWindowManager.updateViewLayout(mDragView, layoutParams);
-
-			if (mDragListener != null) {
-				mDragListener.onDrag(x, y, null);// change null to "this" when ready to use
-			}
-		}
-	}
-
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		final int action = ev.getAction();
@@ -115,6 +100,21 @@ public class DragNDropListView extends ListView {
 
 	public void setRemoveListener(RemoveListener l) {
 		mRemoveListener = l;
+	}
+
+	// move the drag view
+	private void drag(int x, int y) {
+		if (mDragView != null) {
+			WindowManager.LayoutParams layoutParams = (WindowManager.LayoutParams) mDragView.getLayoutParams();
+			layoutParams.x = x;
+			layoutParams.y = y - mDragPointOffset;
+			WindowManager mWindowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+			mWindowManager.updateViewLayout(mDragView, layoutParams);
+
+			if (mDragListener != null) {
+				mDragListener.onDrag(x, y, null);// change null to "this" when ready to use
+			}
+		}
 	}
 
 	// enable the drag view for dragging

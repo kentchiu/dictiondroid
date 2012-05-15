@@ -19,22 +19,22 @@ package com.ericharlow.dnd;
 import java.util.List;
 
 import roboguice.activity.RoboListActivity;
+import roboguice.util.Ln;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.kentchiu.dictiondroid.R;
 import com.kentchiu.dictiondroid.domain.Dictionary;
-import com.kentchiu.dictiondroid.domain.DictionaryService;
+import com.kentchiu.dictiondroid.domain.IDictionaryService;
 
 public class DragNDropListActivity extends RoboListActivity {
 
 	@Inject
-	private DictionaryService	mService;
+	private IDictionaryService	mService;
 
 	private DropListener		mDropListener	= new DropListener() {
 													@Override
@@ -108,13 +108,13 @@ public class DragNDropListActivity extends RoboListActivity {
 
 	@Override
 	protected void onStop() {
-		int count = getListAdapter().getCount();
-		List<Dictionary> dicts = Lists.newArrayList();
-		for (int i = 0; i < count; i++) {
-			Dictionary item = (Dictionary) getListAdapter().getItem(i);
-			dicts.add(item);
+		DragNDropAdapter adapter = (DragNDropAdapter) getListAdapter();
+		List<Dictionary> content = adapter.getContent();
+		Ln.v("update dictionaries");
+		for (Dictionary each : content) {
+			Ln.v("%s(%b)", each.getName(), each.isEnabled());
 		}
-		mService.save(dicts);
+		mService.persit(content);
 		super.onStop();
 	}
 }

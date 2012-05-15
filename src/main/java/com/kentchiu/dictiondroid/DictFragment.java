@@ -17,18 +17,13 @@ import android.widget.TextView;
 
 import com.google.inject.Inject;
 import com.kentchiu.dictiondroid.domain.Dictionary;
-import com.kentchiu.dictiondroid.domain.DictionaryService;
+import com.kentchiu.dictiondroid.domain.IDictionaryService;
 
 public class DictFragment extends Fragment {
 
 	private WebView				mWebView;
 	@Inject
-	private DictionaryService	mDictionaryService;
-
-	protected void handleQuery(@Observes QueryEvent event) {
-		Ln.d("query changed : %s", event.getQuery());
-		query(event.getQuery());
-	}
+	private IDictionaryService	mDictionaryService;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -82,6 +77,11 @@ public class DictFragment extends Fragment {
 			mWebView.loadUrl(dictionary.toUrl(query));
 			textView.setText(dictionary.toUrl(query));
 		}
+	}
+
+	protected void handleQuery(@Observes QueryEvent event) {
+		Ln.d("query changed : %s", event.getQuery());
+		query(event.getQuery());
 	}
 
 }
