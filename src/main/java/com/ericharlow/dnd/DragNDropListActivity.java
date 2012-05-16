@@ -114,7 +114,7 @@ public class DragNDropListActivity extends RoboListActivity {
 		for (Dictionary each : content) {
 			Ln.v("%s(%b)", each.getName(), each.isEnabled());
 		}
-		mService.persit(content);
+		mService.persist(content);
 		super.onStop();
 	}
 }

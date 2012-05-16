@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import roboguice.util.Ln;
 import android.content.Context;
 
 import com.google.common.base.Predicate;
@@ -92,6 +94,17 @@ public class DictionaryService implements IDictionaryService {
 		});
 	}
 
+	@Override
+	public void persist(List<Dictionary> dict) {
+		File config = getConfigFile();
+		try {
+			FileUtils.writeLines(config, dict);
+		} catch (IOException e) {
+			Ln.e(e, "persist config fail");
+			throw new IllegalStateException();
+		}
+	}
+
 	private File getConfigFile() {
 		File file;
 		if (sdcard == null) {
@@ -109,11 +122,6 @@ public class DictionaryService implements IDictionaryService {
 			e.printStackTrace();
 		}
 		return ImmutableList.of();
-	}
-
-	public void persit(List<Dictionary> content) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
