@@ -54,7 +54,7 @@ public class DictionaryService implements IDictionaryService {
 				lines.add(new Dictionary("tfd", "http://www.thefreedictionary.com/$$").toString());
 				lines.add(new Dictionary("wikitionary", "http://en.wiktionary.org/wiki/$$").toString());
 				lines.add(new Dictionary("longman", "http://www.ldoceonline.com/search/?q=$$").toString());
-				lines.add(new Dictionary("dictionary", "http://m.dictionary.com/?submit-result-SEARCHD=Search&q=$$").toString());
+				lines.add(new Dictionary("dictionary", "http://m.dictionary.com/definition/$$").toString());
 				lines.add(new Dictionary("dreye", "http://www.dreye.com/mws/dict.php?project=nd&ua=dc_cont&w=$$&x=0&y=0").toString());
 				lines.add(new Dictionary("cambridge", "http://dictionary.cambridge.org/spellcheck/british/?q=$$").toString());
 				lines.add(new Dictionary("collins", "http://www.collinsdictionary.com/dictionary/english/$$").toString());

@@ -69,7 +69,9 @@ public class DictionaryActivity extends RoboActivity {
 		actionBar.setDisplayShowTitleEnabled(false);
 
 		for (Dictionary each : mDictionaryService.allDictionaries()) {
-			addTab(actionBar, each.getName());
+			if (each.isEnabled()) {
+				addTab(actionBar, each.getName());
+			}
 		}
 	}
 
