@@ -4,22 +4,29 @@
     android:layout_height="match_parent"
     android:orientation="horizontal" >
 
-    <EditText
-        android:id="@+id/queryTextView"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:imeOptions="actionSend"
-        android:singleLine="true"
-        android:visibility="invisible" />
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" >
+
+        <EditText
+            android:id="@+id/queryTextView"
+            android:layout_width="137dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:imeOptions="actionSend"
+            android:singleLine="true"
+            android:visibility="invisible" >
 
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:visibility="invisible" 
-         />
+            <requestFocus />
+        </EditText>
+
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
+    </FrameLayout>
 
     <ImageView
         android:id="@+id/micImageView"
@@ -31,6 +38,6 @@
         android:id="@+id/penImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_edit" />
+        android:src="@android:drawable/ic_menu_edit" android:contentDescription="TODO"/>
 
 </LinearLayout>
